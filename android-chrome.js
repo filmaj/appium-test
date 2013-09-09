@@ -13,7 +13,7 @@ browser.on('command', function(meth, path, data) {
 
 browser.init({
     device:'Android',
-    app:'chrome'
+    app:'sample-code/ApiDemos',
   }, function() {
 
   browser.get("http://filmaj.ca", function() {
