@@ -24,6 +24,12 @@ Make sure the device you have connected is rooted!
 
     $ node android-chrome.js
 
+## Native Android Application
+
+This test clicks around inside the standard Android Settings application. This does not require that the device is rooted.
+
+    $ node android-native.js
+
 # Multiple Devices
 
-TBD
+Workin' on it.

@@ -11,6 +11,12 @@ browser.on('command', function(meth, path, data) {
   console.log(' > ' + meth.yellow, path.grey, data || '');
 });
 
+/*
+ * This test loads up Fil's homepage, checks that the title matches
+ * some standard expectation, clicks on a link labeled "CV" and 
+ * expects that the address bar contains "cv.html".
+ */
+
 browser.init({
     device:'Android',
     app:'sample-code/ApiDemos',
