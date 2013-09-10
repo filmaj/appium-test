@@ -12,9 +12,7 @@
 
 # Doin' it
 
-Make sure you have an Android device connected to your computer. Make sure Appium is running as well!
-
-Below are some tests you can run.
+Make sure you have one or more Android device(s) connected to your computer. Below are some tests you can run.
 
 ## Chrome for Android
 
@@ -22,14 +20,16 @@ This one runs through and asserts basic things about [my website](http://filmaj.
 
 Make sure the device you have connected is rooted!
 
-    $ node android-chrome.js
+    $ node tests/android-chrome.js
 
 ## Native Android Application
 
 This test clicks around inside the standard Android Settings application. This does not require that the device is rooted.
 
-    $ node android-native.js
+    $ node tests/android-native.js
 
 # Multiple Devices
 
-Workin' on it.
+Connect two (or more) Android devices to your computer. Then!
+
+    $ node droid-native.js
