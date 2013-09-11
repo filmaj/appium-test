@@ -32,4 +32,7 @@ This test clicks around inside the standard Android Settings application. This d
 
 Connect two (or more) Android devices to your computer. Then!
 
-    $ node droid-native.js
+    $ node multidroid.js
+
+This test will detect which Android device(s) connected to your computer are rooted and which are not, and will deploy
+either a Chrome test (to rooted devices) or a native application test (to non-rooted devices).

@@ -3,6 +3,7 @@
   "repository":"https://github.com/filmaj/appium-test",
   "dependencies":{
     "wd":"",
-    "colors":""
+    "colors":"",
+    "ncallbacks":""
   }
 }
