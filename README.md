@@ -7,6 +7,8 @@
  * [Appium](https://github.com/appium/appium)
  * [ChromeDriver](https://code.google.com/p/chromedriver/downloads/list) + add it to your `PATH`
 
+Then run:
+
     $ cd into/this/repo
     $ npm install
 
