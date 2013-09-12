@@ -2,7 +2,7 @@ var wd = require('wd')
   , assert = require('assert')
   , colors = require('colors');
 
-module.exports = function(port) {
+module.exports = function(port, cb) {
   var browser = wd.remote('localhost', port);
 
   browser.on('status', function(info) {
@@ -32,6 +32,7 @@ module.exports = function(port) {
             browser.eval("window.location.href", function(err, href) {
               assert.ok(~href.indexOf('cv.html'));
               browser.quit();
+              if (cb) cb();
             });
           });
         });

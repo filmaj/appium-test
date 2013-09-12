@@ -2,7 +2,7 @@ var wd = require('wd')
   , assert = require('assert')
   , colors = require('colors');
 
-module.exports = function(port) {
+module.exports = function(port, cb) {
   var browser = wd.remote('localhost', port);
 
   browser.on('status', function(info) {
@@ -30,6 +30,7 @@ module.exports = function(port) {
           assert.ok(!err);
           assert.ok(vol_el);
           browser.quit();
+          if (cb) cb();
         });
       });
     });

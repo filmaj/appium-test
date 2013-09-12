@@ -1,7 +1,7 @@
 var native_test = require('./tests/android-native'),
     chrome_test = require('./tests/android-chrome'),
     path = require('path'),
-    n    = require('ncallbacks'),
+    n_callbacks = require('ncallbacks'),
     spawn = require('child_process').spawn,
     exec = require('child_process').exec;
 
@@ -15,16 +15,20 @@ var port_start = 4273;
 // Holds appium instances
 var servers = {};
 
-process.on('SIGINT', function() {
+// Cleanup method: kill spawned Appium processes.
+function doneskis() {
   var count = 0;
   Object.keys(servers).forEach(function(id) {
     servers[id].kill();
     count++;
   });
-  console.log(count + ' Appium instances shut down, goodbye!');
-});
+  if (count) console.log(count + ' Appium instances shut down, goodbye!');
+}
 
-// First run `adb devices` to get a list of connected devices.
+// Hook in cleanup if use Ctrl+C's out of node
+process.on('SIGINT', doneskis);
+
+// Run `adb devices` to get a list of connected devices.
 exec('adb devices', function(err, stdout, stderr) {
   if (err) {
     console.error('ERROAR running `adb devices`!');
@@ -39,9 +43,11 @@ exec('adb devices', function(err, stdout, stderr) {
     console.log('Detected ' + devices.length + ' devices.');
 
     var device_list = [];
-    var end = n(devices.length, function() {
+    var end = n_callbacks(devices.length, function() {
       start_appium_servers(device_list);
     });
+
+    // Figure out which devices are rooted.
     devices.forEach(function(id) {
       exec('adb -s ' + id + ' root', function(err, stdout, stderr) {
         if (err) {
@@ -75,6 +81,10 @@ exec('adb devices', function(err, stdout, stderr) {
 
 function start_appium_servers(devices) {
   console.log('Kicking up ' + devices.length + ' appium instances...');
+  var end = n_callbacks(devices.length, function() {
+    console.log(devices.length + ' tests successfully finished!');
+    doneskis();
+  });
   for (var i = 0, n = devices.length; i < n; i++) (function(device) {
     var id = device.id;
     var started = false;
@@ -88,10 +98,10 @@ function start_appium_servers(devices) {
         started = true;
         if (device.rooted) {
           console.log('Starting Chrome test on device ' + id + '...');
-          chrome_test(appium_port);
+          chrome_test(appium_port, end);
         } else {
           console.log('Starting native Android test on device ' + id + '...');
-          native_test(appium_port);
+          native_test(appium_port, end);
         }
       }
     });
