@@ -29,6 +29,7 @@ module.exports = function(port) {
         browser.elementByName('Volumes', function(err, vol_el) {
           assert.ok(!err);
           assert.ok(vol_el);
+          browser.quit();
         });
       });
     });
