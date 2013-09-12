@@ -1,5 +1,6 @@
 {
   "name":"appium-test",
+  "version":"0.0.1",
   "repository":"https://github.com/filmaj/appium-test",
   "dependencies":{
     "wd":"",
