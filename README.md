@@ -32,7 +32,9 @@ This test clicks around inside the standard Android Settings application. This d
 
 # Multiple Devices
 
-Connect two (or more) Android devices to your computer. Then!
+Connect two (or more) Android devices to your computer. Edit the `appium` variable on line 9 to point to the location of your cloned Appium repository.
+
+Then!
 
     $ node multidroid.js
 
