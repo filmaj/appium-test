@@ -3,7 +3,6 @@ var wd = require('wd')
   , colors = require('colors');
 
 module.exports = function(port, cb) {
-  //var browser = wd.remote('http://admin:0e779f56-385a-41be-a562-6f6908bf5acf@brainsik.dev.saucelabs.net:4443/wd/hub');
   var brower = wd.remote('localhost', port);
 
   browser.on('status', function(info) {
