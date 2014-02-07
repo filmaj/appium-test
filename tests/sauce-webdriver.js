@@ -2,10 +2,12 @@ var wd = require('wd')
   , assert = require('assert')
   , colors = require('colors');
 
-var KEY = '';
-var USER = '';
-var HOST = '';
-var PORT = 4444;
+var config = require('./fil-stew-creds.json');
+
+var KEY = config.KEY;
+var USER = config.USER;
+var HOST = config.HOST;
+var PORT = config.PORT;
 
 module.exports = function(port, cb) {
   var browser = wd.remote({
@@ -23,21 +25,14 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
-  /*
-  * This test loads up Fil's homepage, checks that the title matches
-  * some standard expectation, clicks on a link labeled "CV" and
-  * expects that the address bar contains "cv.html".
-  */
-
   browser.init({
       browserName:'android',
       platform:'Linux',
-      'app-activity':'.Browser',
-      'app-package':'com.android.browser',
+      "device-type":"tablet",
+      "device-orientation":"landscape",
       username:USER,
       accessKey:KEY,
-      platform: 'Linux',
-      version: '2.3'
+      version: '4.2'
     }, function(err, session, caps) {
       if (err) console.dir(err);
       else browser.get('http://brainsik.dev.saucelabs.net/test-guinea-pig2.html', function(err) {

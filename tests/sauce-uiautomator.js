@@ -1,11 +1,13 @@
-var wd = require('wd')
-  , assert = require('assert')
-  , colors = require('colors');
+var wd = require('wd'),
+    assert = require('assert'),
+    colors = require('colors');
 
-var KEY = '';
-var USER = '';
-var HOST = '';
-var PORT = 4444;
+var config = require('./fil-stew-creds.json');
+
+var USER = config.USER;
+var PORT = config.PORT;
+var HOST = config.HOST;
+var KEY = config.KEY;
 
 module.exports = function(port, cb) {
   var browser = wd.remote({
@@ -23,33 +25,71 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
-  /*
-  * This test loads up Fil's homepage, checks that the title matches
-  * some standard expectation, clicks on a link labeled "CV" and
-  * expects that the address bar contains "cv.html".
-  */
-
   browser.init({
-      device:'Android',
-      app:'http://saucelabs.com/example_files/ContactManager.apk',
-      "app-package":"com.example.android.contactmanager",
-      "app-activity":".ContactManager",
-      username:USER,
-      accessKey:KEY,
-      platform: 'Linux',
-      version: '4.2'
-    }, function(err, session, caps) {
-      if (err) console.dir(err);
-      else browser.elementByName('Add Contact', function(err, el) {
-          if (err) console.dir('error finding add contact', err);
-          else el.click(function(err) {
-              if (err) console.dir('error clicking add contact', err);
-              assert.ok(!err);
-              browser.quit();
+    device:'android',
+    app:'http://saucelabs.com/example_files/ContactManager.apk',
+    "app-activity": ".ContactManager",
+    "app-package": "com.example.android.contactmanager",
+    username:USER,
+    accessKey:KEY,
+    platform: 'Linux',
+    version: '4.0'
+  }, function() {
+    browser.elementByName('Add Contact', function(err, el) {
+      if (err) console.error('get add contact', err);
+      else el.click(function(err) {
+        if (err) console.error('click add contact', err);
+        else browser.elementsByTagName('textfield', function(err, fields) {
+          if (err) console.error('get textfields', err);
+          else fields[0].type('My Name', function(err) {
+            if (err) console.error('type into fields[0]', err);
+            else fields[2].type('someone@somewhere.com', function(err) {
+              if (err) console.error('type into fields[2]', err);
+              else fields[0].text(function(err, text) {
+                if (err) console.error('get text fields[0]', err);
+                else {
+                  assert.equal(text, 'My Name');
+                  fields[2].text(function(err, text) {
+                    if (err) console.error('get text fields[2]', err);
+                    else {
+                      assert.equal(text, 'someone@somewhere.com');
+                      browser.back(function(err) {
+                        if (err) console.error('back err', err);
+                        else browser.elementByTagName('button', function(err, btn) {
+                          if (err) console.error('get button', err);
+                          else btn.text(function(err, text) {
+                            if (err) console.error('get button txt', err);
+                            else {
+                              assert.equal(text, 'Add Contact');
+                              browser.elementByXPath('//checkBox', function(err, box) {
+                                if (err) console.error('get checkbox', err);
+                                else box.click(function(err) {
+                                  if (err) console.error('click checkbox', err);
+                                  else box.text(function(err, text) {
+                                    if (err) console.error('get checkbox text', err);
+                                    else {
+                                      assert.equal(text, 'Show Invisible Contacts (Only)');
+                                      browser.quit() 
+                                      if (cb) cb();
+                                    }
+                                  });
+                                });
+                              });
+                            }
+                          });
+                        });
+                      });
+                    }
+                  });
+                }
+              });
+            });
           });
+        });
       });
+    });
   });
-}
+};
 
 if (require.main === module) {
   module.exports(4723);

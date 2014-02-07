@@ -2,10 +2,12 @@ var wd = require('wd')
   , assert = require('assert')
   , colors = require('colors');
 
-var KEY = '';
-var USER = '';
-var HOST = '';
-var PORT = 4444;
+var config = require('./fil-stew-creds.json');
+
+var KEY = config.KEY;
+var USER = config.USER;
+var HOST = config.HOST;
+var PORT = config.PORT;
 
 module.exports = function(port, cb) {
   var browser = wd.remote({
@@ -23,21 +25,17 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
-  /*
-  * This test loads up Fil's homepage, checks that the title matches
-  * some standard expectation, clicks on a link labeled "CV" and
-  * expects that the address bar contains "cv.html".
-  */
-
   browser.init({
       device:'Android',
       app:'http://saucelabs.com/example_files/selendroid-test-app-0.6.0-SNAPSHOT.apk',
       "app-package":"io.selendroid.testapp",
       "app-activity":".HomeScreenActivity",
+      "device-orientation":"landscape",
+      "device-type":"tablet",
       username:USER,
       accessKey:KEY,
       platform: 'Linux',
-      version: '2.3'
+      version: '4.1'
     }, function(err, session, caps) {
       if (err) console.dir(err);
       else browser.elementById('buttonStartWebView', function(err, el) {
