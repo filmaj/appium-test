@@ -32,16 +32,28 @@ module.exports = function(port, cb) {
       "device-orientation":"landscape",
       username:USER,
       accessKey:KEY,
-      version: '4.2'
+      version: '4.3'
     }, function(err, session, caps) {
-      if (err) console.dir(err);
+      if (err) console.error(err);
       else browser.get('http://brainsik.dev.saucelabs.net/test-guinea-pig2.html', function(err) {
-        if (err) console.dir('getting url failed', err);
+        if (err) console.error('getting url failed', err);
         else browser.waitForElementById('i_am_an_id', function(err) {
-          if (err) console.dir('waiting for element failed', err);
+          if (err) console.error('waiting for element failed', err);
           else {
-            assert.ok(!err);
-            browser.quit();
+            browser.execute('return document.documentElement.clientHeight', function(err, result) {
+              if (err) console.error('getting clientHeight', err);
+              else {
+                var height = result;
+                browser.execute('return document.documentElement.clientWidth', function(err, result) {
+                  if (err) console.error('getting clientWidth', err);
+                  else {
+                    var width = result;
+                    assert.ok(width >= height, 'in landscape mode, width is supposed to be higher than height');
+                    browser.quit();
+                  }
+                });
+              }
+            });
           }
         });
       });
