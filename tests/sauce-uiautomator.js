@@ -2,7 +2,7 @@ var wd = require('wd'),
     assert = require('assert'),
     colors = require('colors');
 
-var config = require('./fil-stew-creds.json');
+var config = require('./fil-saucelabs-creds.json');
 
 var USER = config.USER;
 var PORT = config.PORT;
@@ -26,16 +26,18 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    device:'android',
+    name:'Contact Manager Native Application Test',
+    device:'Android',
     app:'http://saucelabs.com/example_files/ContactManager.apk',
     "app-activity": ".ContactManager",
     "app-package": "com.example.android.contactmanager",
     username:USER,
     accessKey:KEY,
     platform: 'Linux',
-    version: '4.0'
-  }, function() {
-    browser.elementByName('Add Contact', function(err, el) {
+    version: '4.2'
+  }, function(err) {
+    if (err) console.error('init err!', err);
+    else browser.elementByName('Add Contact', function(err, el) {
       if (err) console.error('get add contact', err);
       else el.click(function(err) {
         if (err) console.error('click add contact', err);
