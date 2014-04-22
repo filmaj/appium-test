@@ -3,7 +3,7 @@ var wd = require('wd')
   , colors = require('colors');
 
 module.exports = function(port, cb) {
-  var brower = wd.remote('localhost', port);
+  var browser = wd.remote('localhost', port);
 
   browser.on('status', function(info) {
     console.log(info.cyan);
@@ -21,11 +21,14 @@ module.exports = function(port, cb) {
 
   browser.init({
     'browserName': 'android',
-    'version': '4.0',
     'platform': 'Linux',
-    'device-orientation': 'portrait'
-  }, function() {
-    browser.get("http://filmaj.ca", function() {
+    'app':'browser',
+  }, function(err) {
+    if (err) {
+      console.error('There was an error starting the test:');
+      console.error(err);
+      console.error('This test requires running on an Android 4.4 device or emulator.');
+    } else browser.get("http://filmaj.ca", function() {
       browser.title(function(err, title) {
         assert.ok(~title.indexOf('Fil Maj'), 'Wrong title!');
         browser.elementByLinkText('CV', function(err, el) {
