@@ -25,35 +25,28 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
+  var quit = function(msg, err) {
+    console.error('msg', err);
+    browser.quit();
+  };
+
   browser.init({
-      browserName:'android',
+      browserName:'Android',
+      name:'Nexus4 Sauce Connect AndroidDriver test',
       platform:'Linux',
-      "device-type":"tablet",
-      "device-orientation":"landscape",
       username:USER,
       accessKey:KEY,
-      version: '4.3'
+      version: '4.3',
+      deviceName: 'Nexus 4 Emulator'
     }, function(err, session, caps) {
-      if (err) console.error(err);
-      else browser.get('http://brainsik.dev.saucelabs.net/test-guinea-pig2.html', function(err) {
-        if (err) console.error('getting url failed', err);
-        else browser.waitForElementById('i_am_an_id', function(err) {
-          if (err) console.error('waiting for element failed', err);
+      if (err) quit('init error!', err);
+      else browser.get('http://localhost:8888', function(err) {
+        if (err) quit('get error!', err);
+        else browser.title(function(err, result) {
+          if (err) quit('title error!', err);
           else {
-            browser.execute('return document.documentElement.clientHeight', function(err, result) {
-              if (err) console.error('getting clientHeight', err);
-              else {
-                var height = result;
-                browser.execute('return document.documentElement.clientWidth', function(err, result) {
-                  if (err) console.error('getting clientWidth', err);
-                  else {
-                    var width = result;
-                    assert.ok(width >= height, 'in landscape mode, width is supposed to be higher than height');
-                    browser.quit();
-                  }
-                });
-              }
-            });
+            console.log('Title is: ' + result);
+            browser.quit();
           }
         });
       });

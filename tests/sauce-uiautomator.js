@@ -26,15 +26,15 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    name:'Contact Manager Native Application Test',
-    device:'Android',
+    name:'Contact Manager Native Application Test on Nexus4',
+    device:'LG Nexus 4 Emulator',
     app:'http://saucelabs.com/example_files/ContactManager.apk',
     "app-activity": ".ContactManager",
     "app-package": "com.example.android.contactmanager",
     username:USER,
     accessKey:KEY,
     platform: 'Linux',
-    version: '4.2'
+    version: '4.3'
   }, function(err) {
     if (err) console.error('init err!', err);
     else browser.elementByName('Add Contact', function(err, el) {

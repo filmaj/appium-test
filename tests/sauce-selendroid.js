@@ -26,30 +26,35 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-      device:'Android',
-      app:'http://saucelabs.com/example_files/selendroid-test-app-0.6.0-SNAPSHOT.apk',
-      "app-package":"io.selendroid.testapp",
-      "app-activity":".HomeScreenActivity",
-      "device-orientation":"landscape",
-      "device-type":"tablet",
-      username:USER,
-      accessKey:KEY,
-      platform: 'Linux',
-      version: '4.1'
+    "name":"Android Selendroid Test on Note2",
+    "device":"Galaxy Note2 Emulator",
+    app:'http://saucelabs.com/example_files/selendroid-test-app-0.6.0-SNAPSHOT.apk',
+    "app-package":"io.selendroid.testapp",
+    "app-activity":".HomeScreenActivity",
+    username:USER,
+    accessKey:KEY,
+    platform: 'Linux',
+    version: '4.3'
     }, function(err, session, caps) {
       if (err) console.dir(err);
-      else browser.elementById('buttonStartWebView', function(err, el) {
-          if (err) console.dir('error finding buttonstartwebview', err);
-          else el.click(function(err) {
-              if (err) console.dir('error clicking buttonstartwebview', err);
-              browser.elementByClassName('android.webkit.WebView', function(err, el) {
-                  if (err) console.dir('error getting webview', err);
-                  else {
-                      assert.ok(el);
-                      browser.quit();
-                  }
+      else browser.setImplicitWaitTimeout(10000, function(err) {
+          if (err) console.dir('error setting timeout');
+
+          else /*browser.elementById('buttonStartWebView', function(err, el) {
+              if (err) console.dir('error finding buttonstartwebview', err);
+              else el.click(function(err) {
+                  if (err) console.dir('error clicking buttonstartwebview', err);
+                  browser.elementByClassName('android.webkit.WebView', function(err, el) {
+                      if (err) console.dir('error getting webview', err);
+                      else {
+                          assert.ok(el);
+                          browser.quit();
+                      }
+                  });
               });
           });
+          */
+            browser.quit();
       });
   });
 }
