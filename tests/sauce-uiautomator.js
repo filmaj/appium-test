@@ -2,7 +2,7 @@ var wd = require('wd'),
     assert = require('assert'),
     colors = require('colors');
 
-var config = require('./fil-saucelabs-creds.json');
+var config = require('./fil-stew-creds.json');
 
 var USER = config.USER;
 var PORT = config.PORT;
@@ -26,8 +26,8 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    name:'Contact Manager Native Application Test on Nexus4',
-    device:'LG Nexus 4 Emulator',
+    name:'Contact Manager Native Application Test on REAL S4',
+    device:'Samsung Galaxy S4 Device',
     app:'http://saucelabs.com/example_files/ContactManager.apk',
     "app-activity": ".ContactManager",
     "app-package": "com.example.android.contactmanager",
@@ -55,32 +55,8 @@ module.exports = function(port, cb) {
                     if (err) console.error('get text fields[2]', err);
                     else {
                       assert.equal(text, 'someone@somewhere.com');
-                      browser.back(function(err) {
-                        if (err) console.error('back err', err);
-                        else browser.elementByTagName('button', function(err, btn) {
-                          if (err) console.error('get button', err);
-                          else btn.text(function(err, text) {
-                            if (err) console.error('get button txt', err);
-                            else {
-                              assert.equal(text, 'Add Contact');
-                              browser.elementByXPath('//checkBox', function(err, box) {
-                                if (err) console.error('get checkbox', err);
-                                else box.click(function(err) {
-                                  if (err) console.error('click checkbox', err);
-                                  else box.text(function(err, text) {
-                                    if (err) console.error('get checkbox text', err);
-                                    else {
-                                      assert.equal(text, 'Show Invisible Contacts (Only)');
-                                      browser.quit() 
-                                      if (cb) cb();
-                                    }
-                                  });
-                                });
-                              });
-                            }
-                          });
-                        });
-                      });
+                      browser.quit() 
+                      if (cb) cb();
                     }
                   });
                 }
