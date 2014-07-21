@@ -9,7 +9,10 @@
 
 ## Running Locally
 
+You will need to install and configure the following things to run tests locally on devices connected to your computer, or emulators running on your machine:
+
  * [Appium](https://github.com/appium/appium)
+   * Make sure you [download the Android SDK](http://developer.android.com/sdk/index.html) and set your `ANDROID_HOME` environment to point to your SDK location.
  * [ChromeDriver](https://code.google.com/p/chromedriver/downloads/list) + add it to your `PATH`
 
 ## Running on Saucelabs.com
