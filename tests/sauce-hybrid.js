@@ -17,6 +17,11 @@ module.exports = function(port, cb) {
       accessKey: KEY
   });
 
+  var error = function(msg, err) {
+    console.error(msg, err);
+    browser.quit();
+  };
+
   browser.on('status', function(info) {
     console.log(info.cyan);
   });
@@ -26,7 +31,7 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    name:'Contact Manager Native Application Test on REAL S4',
+    name:'Hybrid app test on REAL S4, over SC, to http://custom:8000',
     device:'Samsung Galaxy S4 Device',
     app:'http://s3.amazonaws.com/somen/HelloCordova-debug.apk',
     "app-activity": ".HelloCordova",
@@ -36,10 +41,26 @@ module.exports = function(port, cb) {
     platform: 'Linux',
     version: '4.3'
   }, function(err) {
-    if (err) console.error('init err!', err);
+    if (err) error('init err!', err);
     else {
-      console.log('OMGZ DID THIS WORK?');
-      browser.quit();
+      browser.setImplicitWaitTimeout(25000, function(err) {
+        if (err) error('wait timeout err!', err);
+        else setTimeout(function() {
+          browser.contexts(function(err, cs) {
+            if (err) error('error getting contexts!', err);
+            else {
+              console.log('contexts:', cs);
+              browser.context(cs[0], function(err) {
+                if (err) error('error setting context!', err);
+                else browser.source(function(err, source) {
+                  if (err) error('error getting page source!', err);
+                  else browser.quit();
+                });
+              });
+            }
+          });
+        }, 20000);
+      });
     }
   });
 };
