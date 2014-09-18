@@ -26,7 +26,7 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    name:'Contact Manager Native Application Test on REAL S4',
+    name:'Contact Manager Native Application Test on S4 Device',
     device:'Samsung Galaxy S4 Device',
     app:'http://saucelabs.com/example_files/ContactManager.apk',
     "app-activity": ".ContactManager",
@@ -34,7 +34,7 @@ module.exports = function(port, cb) {
     username:USER,
     accessKey:KEY,
     platform: 'Linux',
-    version: '4.3'
+    version: '4.4'
   }, function(err) {
     if (err) console.error('init err!', err);
     else browser.elementByName('Add Contact', function(err, el) {

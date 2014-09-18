@@ -31,25 +31,34 @@ module.exports = function(port, cb) {
   * expects that the address bar contains "cv.html".
   */
 
+  var error = function(msg, err) {
+      console.error(msg, err);
+      browser.quit();
+  }
+
   browser.init({
+      name:'Chrome-For-Android Test on a REAL Samsung S4',
       browserName: 'Chrome',
       deviceName: 'Samsung Galaxy S4 Device',
       platformName: 'Android',
-      platformVersion: '4.3'
-    }, function() {
-    browser.get("http://filmaj.ca", function() {
-      browser.title(function(err, title) {
-        if(err) {
-          console.log(err);
-          return;
-        }
-        assert.ok(~title.indexOf('Fil Maj'), 'Wrong title!');
-        browser.elementByLinkText('CV', function(err, el) {
-          browser.clickElement(el, function() {
-            browser.eval("window.location.href", function(err, href) {
-              assert.ok(~href.indexOf('cv.html'));
-              browser.quit();
-              if (cb) cb();
+      platformVersion: '4.4',
+      'appium-version':'1.2.2'
+  }, function(err) {
+    if (err) error('error initing', err);
+    else browser.get("http://filmaj.ca", function(err) {
+      if (err) error('error getting url', err);
+      else browser.title(function(err, title) {
+        if(err) error('error getting title', err);
+        else browser.elementByLinkText('CV', function(err, el) {
+          if (err) error('error clicking CV link', err);
+          else browser.clickElement(el, function(err) {
+            if (err) error('error clicking CV link', err);
+            else browser.eval("window.location.href", function(err, href) {
+              if (err) error('error getting location.href', err);
+              else {
+                browser.quit();
+                if (cb) cb();
+              }
             });
           });
         });

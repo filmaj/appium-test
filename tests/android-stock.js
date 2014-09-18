@@ -20,9 +20,10 @@ module.exports = function(port, cb) {
   */
 
   browser.init({
-    'browserName': 'android',
-    'platform': 'Linux',
-    'app':'browser',
+    'browserName':'Browser',
+    'platformName':'Android',
+    'platformVersion':'4.3',
+    'deviceName':'Samsung Galaxy S4 Device'
   }, function(err) {
     if (err) {
       console.error('There was an error starting the test:');
