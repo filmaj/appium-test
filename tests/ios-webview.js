@@ -14,12 +14,11 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    device:'iPhone Simulator',
+    deviceName:'iPhone Simulator',
     name:'ios webview',
-    platform:'Mac 10.9',
+    platformName:'iOS',
     app: '/Users/filmaj/src/hybrid/platforms/ios/build/HelloCordova.app',
-    version: '',
-    browserName: '',
+    autoWebview:true,
     implicitWaitMs: 500
   }, function() {
     browser.windowHandles(function(err, handles) {
@@ -30,7 +29,6 @@ module.exports = function(port, cb) {
                 browser.elementById('deviceready', function(err, el) {
                     if (err) console.error(err) && browser.quit();
                     else {
-                        assert.ok(el);
                         browser.quit();
                     }
                 });
