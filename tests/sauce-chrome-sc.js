@@ -39,7 +39,7 @@ module.exports = function(port, cb) {
       'appium-version':'1.2.2'
   }, function(err) {
     if (err) error('error initing', err);
-    else browser.get("http://localhost:8000", function(err) {
+    else browser.get("https://172.16.30.32:8000", function(err) {
       if (err) error('error getting url', err);
       else browser.title(function(err, title) {
         if(err) error('error getting title', err);

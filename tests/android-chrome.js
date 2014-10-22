@@ -25,10 +25,9 @@ module.exports = function(port, cb) {
   }
 
   browser.init({
-      deviceName:'Samsung Galaxy S4 Device',
+      deviceName:'Nexus 5',
       platformName:'Android',
       browserName:'Chrome',
-      'appium-version':'1.2.2'
   }, function(err) {
     if (err) error('error initing', err);
     else browser.get("http://filmaj.ca", function(err) {

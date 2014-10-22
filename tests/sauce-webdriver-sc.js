@@ -32,7 +32,7 @@ module.exports = function(port, cb) {
 
   browser.init({
       browserName:'Android',
-      name:'Nexus4 emulator https localhost',
+      name:'Nexus4 emulator http localhost',
       platform:'Linux',
       username:USER,
       accessKey:KEY,
@@ -40,7 +40,7 @@ module.exports = function(port, cb) {
       deviceName: 'Nexus 4 Emulator'
     }, function(err, session, caps) {
       if (err) quit('init error!', err);
-      else browser.get('http://filmaj.ca', function(err) {
+      else browser.get('http://192.168.1.104:8000', function(err) {
         if (err) quit('get error!', err);
         else browser.title(function(err, result) {
           if (err) quit('title error!', err);

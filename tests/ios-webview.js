@@ -13,27 +13,46 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
+  var error = function(msg, err) {
+    console.error(msg, err);
+    browser.quit();
+  }
+
   browser.init({
     deviceName:'iPhone Simulator',
     name:'ios webview',
     platformName:'iOS',
     app: '/Users/filmaj/src/hybrid/platforms/ios/build/HelloCordova.app',
     autoWebview:true,
-    implicitWaitMs: 500
+    implicitWaitMs: 1500
   }, function() {
-    browser.windowHandles(function(err, handles) {
-        if (err) console.error(err) && browser.quit();
-        else browser.window(handles[0], function(err) {
-            if (err) console.error(err) && browser.quit();
-            else {
-                browser.elementById('deviceready', function(err, el) {
-                    if (err) console.error(err) && browser.quit();
-                    else {
-                        browser.quit();
-                    }
-                });
-            }
+    browser.elementById('deviceready', function(err, el) {
+      if (err) error('cant get deviceready element', err);
+      else {
+        browser.setAsyncScriptTimeout(15000, function(err) {
+          if (err) error('error setting timeout', err);
+          else {
+            var script = "var callback = arguments[arguments.length - 1];" +
+            "var win = function(pos) { callback(pos); };" + 
+            "var fail = function(err) { callback(err);};" +
+            "navigator.geolocation.getCurrentPosition(win,fail);";
+            browser.executeAsync(script, function(err, result) {
+              if (err) error('couldnt execute script', err);
+              else {
+                console.log('Success! Got a script execute result.');
+                console.log(result);
+                browser.quit();
+              }
+            });
+            setTimeout(function() { browser.acceptAlert(function(err) {
+              if (err) error('error accepting alert', err);
+              else setTimeout(function() { browser.acceptAlert(function(err) {
+                if (err) error('error accepting second alert', err);
+              }); }, 2000);
+            }); }, 1000);
+          }
         });
+      }
     });
   });
 }
