@@ -37,12 +37,12 @@ module.exports = function(port, cb) {
   */
 
   browser.init({
-    name:'KitKat Stock Browser Test filmaj.ca',
+    name:'Lollipop Stock Browser Test filmaj.ca',
     browserName: 'Browser',
     platformName: 'Android',
     platformVersion: '5.0',
     deviceName:'Android Emulator',
-    'appium-version':'1.2.4'
+    'appium-version':'1.3.1'
   }, function(err) {
     if (err) error('error initing!', err);
     else browser.get("http://filmaj.ca", function(err) {
