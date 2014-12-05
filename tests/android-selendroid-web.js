@@ -1,6 +1,7 @@
-var wd = require('wd')
-  , assert = require('assert')
-  , colors = require('colors');
+var wd = require('wd'),
+  assert = require('assert'),
+  colors = require('colors');
+
 
 module.exports = function(port, cb) {
   var browser = wd.remote('localhost', port);
@@ -12,6 +13,11 @@ module.exports = function(port, cb) {
   browser.on('command', function(meth, path, data) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
+
+  var error = function(msg, err) {
+      console.error(msg, err);
+      browser.quit();
+  };
 
   /*
   * This test loads up Fil's homepage, checks that the title matches
@@ -27,23 +33,18 @@ module.exports = function(port, cb) {
     if (err) {
       console.error('There was an error starting the test:');
       console.error(err);
-      console.error('This test requires running on an Android 4.4 device or emulator.');
-    } else browser.get("http://filmaj.ca", function() {
-      browser.title(function(err, title) {
-        assert.ok(~title.indexOf('Fil Maj'), 'Wrong title!');
-        browser.elementByLinkText('CV', function(err, el) {
-          browser.clickElement(el, function() {
-            browser.eval("window.location.href", function(err, href) {
-              assert.ok(~href.indexOf('cv.html'));
-              browser.quit();
-              if (cb) cb();
-            });
-          });
+    } else browser.get("http://filmaj.ca", function(err) {
+        if (err) error('could not get site', err);
+        else browser.takeScreenshot(function(err, screen) {
+            if (err) error('could not take screenshot', err);
+            else {
+                console.log(screen);
+                browser.quit();
+            }
         });
-      });
     });
   });
-}
+};
 
 if (require.main === module) {
   module.exports(4444);
