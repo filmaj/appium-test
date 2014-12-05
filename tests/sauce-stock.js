@@ -37,12 +37,12 @@ module.exports = function(port, cb) {
   */
 
   browser.init({
-    name:'Samsung S4 Emulator Stock Browser Test filmaj.ca',
-    browserName: 'browser',
-    deviceName: 'Samsung Galaxy S4 Emulator',
+    name:'KitKat Stock Browser Test filmaj.ca',
+    browserName: 'Browser',
     platformName: 'Android',
-    platformVersion: '4.4',
-    'appium-version':'1.2.2'
+    platformVersion: '5.0',
+    deviceName:'Android Emulator',
+    'appium-version':'1.2.4'
   }, function(err) {
     if (err) error('error initing!', err);
     else browser.get("http://filmaj.ca", function(err) {
