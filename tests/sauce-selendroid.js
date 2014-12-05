@@ -31,7 +31,7 @@ module.exports = function(port, cb) {
   });
 
   browser.init({
-    "name":"Android Selendroid Test w/ Appium 1.0",
+    "name":"Android Selendroid Test w/ Appium 1.2.2 on Android 5.0",
     "deviceName":"Android Emulator",
     app:'http://saucelabs.com/example_files/selendroid-test-app-0.6.0-SNAPSHOT.apk',
     "appPackage":"io.selendroid.testapp",
@@ -39,9 +39,8 @@ module.exports = function(port, cb) {
     username:USER,
     accessKey:KEY,
     platformName: 'Android',
-    platformVersion: '4.4',
-    automationName:'Selendroid',
-    appiumVersion:"0.18.2"
+    platformVersion: '5.0',
+    'appium-version':"1.2.2"
     }, function(err, session, caps) {
       if (err) error(err);
       else browser.setImplicitWaitTimeout(10000, function(err) {
