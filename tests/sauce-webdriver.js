@@ -1,8 +1,8 @@
-var wd = require('wd')
-  , assert = require('assert')
-  , colors = require('colors');
+var wd = require('wd'),
+  assert = require('assert'),
+  colors = require('colors');
 
-var config = require('./fil-stew-creds.json');
+var config = require('./fil-saucelabs-creds.json');
 
 var KEY = config.KEY;
 var USER = config.USER;
@@ -32,26 +32,29 @@ module.exports = function(port, cb) {
 
   browser.init({
       browserName:'Android',
-      name:'Nexus4 emulator https localhost',
+      name:'Screenshot test for filmaj.ca',
       platform:'Linux',
       username:USER,
       accessKey:KEY,
       version: '4.3',
-      deviceName: 'Nexus 4 Emulator'
+      deviceName: 'Android Emulator'
     }, function(err, session, caps) {
       if (err) quit('init error!', err);
       else browser.get('http://filmaj.ca', function(err) {
         if (err) quit('get error!', err);
-        else browser.title(function(err, result) {
-          if (err) quit('title error!', err);
-          else {
-            console.log('Title is: ' + result);
-            browser.quit();
-          }
+        else browser.takeScreenshot(function(err, result) {
+          if (err) quit('screen error!', err);
+          else browser.elementByLinkText('CV', function(err, el) {
+              if (err) quit('error getting cv link', err);
+              else el.click(function(err) {
+                  if (err) quit('error clicking cv link', err);
+                  else browser.quit();
+              });
+          });
         });
       });
     });
-}
+};
 
 if (require.main === module) {
   module.exports(4723);
