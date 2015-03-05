@@ -1,6 +1,6 @@
-var wd = require('wd')
-  , assert = require('assert')
-  , colors = require('colors');
+var wd = require('wd'),
+    assert = require('assert'),
+    colors = require('colors');
 
 var config = require('./fil-saucelabs-creds.json');
 
@@ -17,7 +17,7 @@ module.exports = function(port, cb) {
     accessKey:KEY
   });
 
-  var error = function(msg, err) {
+  var error = function(err, msg) {
       console.error(msg, err);
       browser.quit();
   };
@@ -30,42 +30,42 @@ module.exports = function(port, cb) {
     console.log(' > ' + meth.yellow, path.grey, data || '');
   });
 
-  /*
-  * This test loads up Fil's homepage, checks that the title matches
-  * some standard expectation, clicks on a link labeled "CV" and 
-  * expects that the address bar contains "cv.html".
-  */
-
   browser.init({
-    name:'Lollipop Stock Browser Test filmaj.ca',
+    name:'4.4 Stock Browser Test w/ Location Dialog Interaction',
     browserName: 'Browser',
     platformName: 'Android',
-    platformVersion: '5.0',
+    platformVersion: '4.4',
     deviceName:'Android Emulator',
     'appium-version':'1.3.1'
   }, function(err) {
-    if (err) error('error initing!', err);
-    else browser.get("http://filmaj.ca", function(err) {
-      if (err) error('error getting filmaj.ca', err);
+    if (err) error(err, 'could not load appium the fuck?');
+    else browser.get("http://maps.google.com", function(err) {
+      if (err) error(err, 'could not load google maps');
       else browser.title(function(err, title) {
-        if (err) error('error getting title!', err);
-        else browser.elementByLinkText('CV', function(err, el) {
-          if (err) error('error getting CV link', err);
-          else browser.clickElement(el, function() {
-            if (err) error('error clicking element', err);
-            else browser.eval("window.location.href", function(err, href) {
-              if (err) error('error evaling location', err);
-              else {
-                browser.quit();
-                if (cb) cb();
-              }
-            });
+        if (err) error(err, 'could not get title');
+        else browser.contexts(function(err, cs) {
+          if (err) error(err, 'could not get contexts');
+          else browser.context(cs[0], function(err, context) {
+            if (err) error(err, 'could not set context to ' + cs[0]);
+            else {
+              console.log('set context to ' + cs[0]);
+              browser.elementByAndroidUIAutomator('new UiSelector().text("Share location")', function(err, el) {
+                if (err) error(err, 'could not find element with "share location" as text');
+                else el.click(function(err) {
+                  if (err) error(err, 'could not click share location element');
+                  else browser.context(cs[1], function(err, context) {
+                    if (err) error(err, 'error changing context back to web');
+                    else browser.quit();
+                  });
+                });
+              });
+            }
           });
         });
       });
     });
   });
-}
+};
 
 if (require.main === module) {
   module.exports(4723);
