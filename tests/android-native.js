@@ -14,10 +14,12 @@ module.exports = function(port, cb) {
   });
 
   app.init({
-    device:'android',
+    deviceName:'Android Emulator',
+    platformName:'Android',
+    platformVersion:'5.0',
     app:'http://saucelabs.com/example_files/ContactManager.apk'
-    , "appPackage": "com.example.android.contactmanager"
-    , "appActivity": ".ContactManager"
+    , "app-package": "com.example.android.contactmanager"
+    , "app-activity": ".ContactManager"
   }, function() {
     app.elementByName('Add Contact', function(err, el) {
       if (err) console.error('elementbyname add contacnt', err);

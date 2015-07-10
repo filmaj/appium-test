@@ -2,6 +2,16 @@ var wd = require('wd'),
     assert = require('assert'),
     colors = require('colors');
 
+/*
+ * Uses a cordova application! Super easy to get one going:
+ *   - npm install -g cordova
+ *   - cordova create hybrid
+ *   - cd hybrid
+ *   - cordova platform add android
+ *   - cordova build
+ *   use the final path to the output apk in the `app` config option below
+ */
+
 module.exports = function(port, cb) {
   var browser = wd.remote('localhost', port);
 
@@ -23,7 +33,7 @@ module.exports = function(port, cb) {
     platformVersion:'4.3',
     deviceName:'Android Emulator',
     autoWebview:true,
-    app:'/Users/filmaj/src/hybrid/platforms/android/bin/HelloCordova-debug.apk',
+    app:'/Users/filmaj/src/hybrid/platforms/android/build/outputs/apk/android-debug.apk',
     "app-activity": ".HelloCordova",
     "app-package": "io.cordova.hellocordova",
   }, function(err) {
@@ -31,12 +41,9 @@ module.exports = function(port, cb) {
     else {
       browser.setImplicitWaitTimeout(5000, function(err) {
         if (err) error('couldnt set wait', err);
-        else browser.elementById('name_input', function(err, input) {
+        else browser.elementById('deviceready', function(err, input) {
             if (err) error('cant get input',err);
-            else input.type('Hi Mr. Brooks!', function(err) {
-              if (err) error('cant type',err);
-              else browser.quit();
-            });
+            else browser.quit();
           });
       });
     }
