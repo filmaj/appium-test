@@ -2,6 +2,16 @@ var wd = require('wd')
   , assert = require('assert')
   , colors = require('colors');
 
+/*
+ * Uses a cordova application! Super easy to get one going:
+ *   - npm install -g cordova
+ *   - cordova create hybrid
+ *   - cd hybrid
+ *   - cordova platform add ios
+ *   - cordova build
+ *   use the final path to the output .app in the `app` config option below
+ */
+
 module.exports = function(port, cb) {
   var browser = wd.remote('localhost', port);
 
@@ -19,40 +29,17 @@ module.exports = function(port, cb) {
   }
 
   browser.init({
-    deviceName:'iPhone Simulator',
+    deviceName:'iPhone 5',
     name:'ios webview',
     platformName:'iOS',
-    app: '/Users/filmaj/src/hybrid/platforms/ios/build/HelloCordova.app',
+    platformVersion:'8.4',
     autoWebview:true,
-    implicitWaitMs: 1500
-  }, function() {
-    browser.elementById('deviceready', function(err, el) {
+    app: '/Users/filmaj/src/hybrid/platforms/ios/build/emulator/HelloCordova.app'
+  }, function(err) {
+    if (err) error('cant init', err);
+    else browser.elementById('deviceready', function(err, el) {
       if (err) error('cant get deviceready element', err);
-      else {
-        browser.setAsyncScriptTimeout(15000, function(err) {
-          if (err) error('error setting timeout', err);
-          else {
-            var script = "var callback = arguments[arguments.length - 1];" +
-            "var win = function(pos) { callback(pos); };" + 
-            "var fail = function(err) { callback(err);};" +
-            "navigator.geolocation.getCurrentPosition(win,fail);";
-            browser.executeAsync(script, function(err, result) {
-              if (err) error('couldnt execute script', err);
-              else {
-                console.log('Success! Got a script execute result.');
-                console.log(result);
-                browser.quit();
-              }
-            });
-            setTimeout(function() { browser.acceptAlert(function(err) {
-              if (err) error('error accepting alert', err);
-              else setTimeout(function() { browser.acceptAlert(function(err) {
-                if (err) error('error accepting second alert', err);
-              }); }, 2000);
-            }); }, 1000);
-          }
-        });
-      }
+      else browser.quit();
     });
   });
 }
