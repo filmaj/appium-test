@@ -2,6 +2,8 @@
 
 > Get up and running with [Appium](https://github.com/appium/appium) on mobile in no time.
 
+Tests written in fancy new JavaScript :D
+
 # Requirements
 
     $ cd into/this/repo
