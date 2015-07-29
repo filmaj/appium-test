@@ -2,10 +2,11 @@
   "name":"appium-test",
   "version":"0.0.1",
   "repository":"https://github.com/filmaj/appium-test",
-  "dependencies":{
-    "wd":"",
-    "colors":"",
-    "ncallbacks":""
+  "devDependencies":{
+    "wd":"^0.3.12",
+    "babel":"^5.4.7",
+    "mocha":"^2.2.5",
+    "chai-as-promised":"^5.1.0"
   },
   "scripts":{
     "test":"mocha --require babel-mocha"
