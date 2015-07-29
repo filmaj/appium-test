@@ -6,5 +6,8 @@
     "wd":"",
     "colors":"",
     "ncallbacks":""
+  },
+  "scripts":{
+    "test":"mocha --require babel-mocha"
   }
 }
