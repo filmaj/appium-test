@@ -23,7 +23,9 @@ You will need to install and configure the following things to run tests locally
 
 ## Locally
 
-Make sure you have one or more Android device(s) connected to your computer. Below are some tests you can run.
+Make sure you have one or more Android device(s) connected to your computer, and an instance of Appium running. An emulator might work, too. Then do:
+
+    npm test test/android-whatever.js
 
 ## Remotely on saucelabs.com
 
@@ -43,5 +45,3 @@ Once set up, set a `SAUCE_ENV` environment variable matching the name of the jso
 To run a speedtest with production credentials, do:
 
     SAUCE_ENV=prod npm test test/sauce-chrome-speedtest.js
-
-# Stressing Bandwidth
