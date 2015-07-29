@@ -19,15 +19,15 @@ describe('On Sauce Labs, ', function() {
                 platformName:'iOS',
                 platformVersion:'8.0',
                 browserName:'Safari',
-                name:'Pinging MDM server'
+                name:'Simple real iOS device test w/ google.com'
             });
         } catch(err) {
             should.not.exist('Error connecting to Sauce Labs!', err);
         }
     });
-    it('should get something by pinging MDM root goodness', async () => {
+    it('should load google.com', async () => {
         try {
-            await browser.get('https://172.22.3.1:12345');
+            await browser.get('https://google.com');
             let title = await browser.title();
         } catch (err) {
             should.not.exist('Error during test!', err);
