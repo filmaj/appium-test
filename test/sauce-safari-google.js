@@ -19,7 +19,8 @@ describe('On Sauce Labs, ', function() {
                 platformName:'iOS',
                 platformVersion:'8.0',
                 browserName:'Safari',
-                name:'Simple real iOS device test w/ google.com'
+                name:'Simple real iOS device test w/ google.com',
+                "appium-version":"1.4.7"
             });
         } catch(err) {
             should.not.exist('Error connecting to Sauce Labs!', err);
