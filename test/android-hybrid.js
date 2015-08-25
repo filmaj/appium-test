@@ -13,7 +13,6 @@
 
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import 'mochawait';
 import wd from 'wd';
 
 let should = chai.should();
@@ -21,12 +20,13 @@ chai.use(chaiAsPromised);
 chaiAsPromised.transferPromiseness = wd.transferPromiseness;
 
 let port = 4723;
-let browser = wd.promiseChainRemote('localhost', port);
+let app = wd.promiseChainRemote('localhost', port);
 
 describe('Local Appium instance', function() {
+    this.timeout(60000);
     before(async () => {
         try {
-            await browser.init({
+            await app.init({
                 deviceName:'Samsung Galaxy Device',
                 platformName:'Android',
                 autoWebview:true,
@@ -40,13 +40,17 @@ describe('Local Appium instance', function() {
     });
     it('should load google\'s webpage and the title should be correct', async () => {
         try {
-            await browser.setImplicitWaitTimeout(5000);
-            let deviceready_element = await browser.elementById('deviceready');
+            await app.setImplicitWaitTimeout(5000);
+            let deviceready_element = await app.elementById('deviceready');
         } catch (e) {
             should.not.exist('Error during test!', e);
         }
     });
     after(async () => {
-        browser.quit();
+        try {
+            app.quit();
+        } catch(e) { 
+            should.not.exist('Error quitting!', e);
+        }
     });
 });

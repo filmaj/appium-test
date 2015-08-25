@@ -11,7 +11,7 @@ chaiAsPromised.transferPromiseness = wd.transferPromiseness;
 let browser = wd.promiseChainRemote(creds.HOST, creds.PORT, creds.USER, creds.KEY);
 
 describe('On Sauce Labs, ', function() {
-    this.timeout(60000);
+    this.timeout(120000);
     before(async () => {
         try {
             await browser.init({
@@ -25,7 +25,7 @@ describe('On Sauce Labs, ', function() {
             should.not.exist('Error connecting to Sauce Labs!', err);
         }
     });
-    it('should get something by pinging MDM root goodness', async () => {
+    it('should get something on google.com', async () => {
         try {
             await browser.get('https://google.com');
             let title = await browser.title();

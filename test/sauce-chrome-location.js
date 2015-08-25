@@ -19,7 +19,8 @@ describe('On Sauce Labs, ', function() {
                 platformName:'Android',
                 platformVersion:'4.4',
                 browserName:'Chrome',
-                name:'S5 real device w/ location dialog'
+                name:'S5 real device w/ location dialog',
+                "appium-version":"1.4.7"
             });
         } catch(err) {
             should.not.exist('Error connecting to Sauce Labs!', err);

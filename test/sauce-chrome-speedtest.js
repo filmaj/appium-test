@@ -22,7 +22,8 @@ describe('On Sauce Labs, ', function() {
                 platformName:'Android',
                 platformVersion:'4.4',
                 browserName:'Chrome',
-                name:'S5 RDC SpeedTest via speedof.me/m'
+                name:'S5 RDC SpeedTest via speedof.me/m',
+                "appium-version":"1.4.7"
             });
             await browser.setImplicitWaitTimeout(2000);
             await browser.setAsyncScriptTimeout(60000);
