@@ -28,7 +28,10 @@ describe('On Sauce Labs, ', function() {
     });
     it('should load google.com', async () => {
         try {
-            await browser.get('https://google.com');
+            await browser.setAsyncScriptTimeout(60000);
+            await browser.setPageLoadTimeout(60000);
+            await browser.setImplicitWaitTimeout(0);
+            await browser.get("http://google.com");
             let title = await browser.title();
         } catch (err) {
             should.not.exist('Error during test!', err);

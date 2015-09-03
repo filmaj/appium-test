@@ -15,13 +15,14 @@ describe('On Sauce Labs', function() {
     before(async () => {
         try {
             await app.init({
-                deviceName:'Samsung Galaxy S4 Device',
-                platformVersion:'4.4',
+                deviceName:'Kindle Fire HD 8.9 Emulator',
+                platformVersion:'4.0',
                 platformName:'Android',
                 "appActivity": ".ContactManager",
                 "appPackage": "com.example.android.contactmanager",
                 app:"http://saucelabs.com/example_files/ContactManager.apk",
-                "appium-version":"1.4.7"
+                "appium-version":"1.4.7",
+                name:"Android Emulator test w a native app"
             });
         } catch(err) {
             should.not.exist('Error connecting to Appium!', err);
@@ -36,7 +37,6 @@ describe('On Sauce Labs', function() {
                 {action:"moveTo",options:{x:"200",y:"100"}},
                 {action:"release"}
             ]});
-
         } catch (e) {
             should.not.exist('Error during test!', e);
         }
