@@ -37,7 +37,7 @@ describe('On Sauce Labs, ', function() {
         try {
             await browser.quit();
         } catch(err) {
-            shoud.not.exist('Error quitting?', err);
+            should.not.exist('Error quitting?', err);
         }
     });
 });

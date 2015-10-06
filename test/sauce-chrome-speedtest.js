@@ -18,12 +18,12 @@ describe('On Sauce Labs, ', function() {
                 console.log(way, data);
             });
             await browser.init({
-                deviceName:'Samsung Galaxy S5 Device',
+                deviceName:'Samsung Galaxy S4 Device',
                 platformName:'Android',
                 platformVersion:'4.4',
                 browserName:'Chrome',
-                name:'S5 RDC SpeedTest via speedof.me/m',
-                "appium-version":"1.4.7"
+                name:'S4 RDC SpeedTest via speedof.me/m',
+                "appium-version":"1.4.10"
             });
             await browser.setImplicitWaitTimeout(2000);
             await browser.setAsyncScriptTimeout(60000);

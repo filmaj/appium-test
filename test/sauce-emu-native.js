@@ -15,13 +15,13 @@ describe('On Sauce Labs', function() {
     before(async () => {
         try {
             await app.init({
-                deviceName:'Kindle Fire HD 8.9 Emulator',
-                platformVersion:'4.0',
+                deviceName:'Android Emulator',
+                platformVersion:'5.0',
                 platformName:'Android',
                 "appActivity": ".ContactManager",
                 "appPackage": "com.example.android.contactmanager",
                 app:"http://saucelabs.com/example_files/ContactManager.apk",
-                "appium-version":"1.4.7",
+                "appium-version":"1.4.10",
                 name:"Android Emulator test w a native app"
             });
         } catch(err) {
@@ -32,7 +32,7 @@ describe('On Sauce Labs', function() {
         try {
             await app.setImplicitWaitTimeout(5000);
             await app.performTouchAction({"actions":[
-                {action:"press",options:{x:"200",y:"1200"}},
+                {action:"press",options:{x:"200",y:"200"}},
                 {action:"wait",options:{}},
                 {action:"moveTo",options:{x:"200",y:"100"}},
                 {action:"release"}
