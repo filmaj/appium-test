@@ -39,7 +39,7 @@ describe('On Sauce Labs, on a real iOS device...', function() {
             await button.click();
             let view_text = await app.elementByName('Second View');
             let is_text_visible = await view_text.isDisplayed();
-            console.log('Is second view visible (this should say yes)? ', is_text_visible);
+            console.log('Is second view visible? (this should say true) ', is_text_visible);
         } catch (err) {
             should.not.exist('Error during test!', err);
         }

@@ -17,10 +17,10 @@ describe('On Sauce Labs, ', function() {
             await browser.init({
                 deviceName:'iPhone 6 Device',
                 platformName:'iOS',
-                platformVersion:'8.0',
+                platformVersion:'8.4',
                 browserName:'Safari',
                 name:'Simple real iOS device test w/ google.com',
-                "appium-version":"1.4.7"
+                "appium-version":"1.4.11"
             });
         } catch(err) {
             should.not.exist('Error connecting to Sauce Labs!', err);
