@@ -2,3 +2,4 @@ node_modules/
 build/
 dev.json
 prod.json
+tags
